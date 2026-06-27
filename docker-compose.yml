@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./schemas:/schemas:ro
+    environment:
+      - SCHEMAS_PATH=/schemas/v1
+      - PORT=8080
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
